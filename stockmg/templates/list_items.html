@@ -3,12 +3,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>{{ title }}</title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-
 </head>
 <body>
-{{ title }}
-{{ form }}
+    {% for product in queryset %}
+    {{ product.item_name }}, {{ product.quantity}} <br>
+    {% endfor %}
+
 </body>
 </html>
