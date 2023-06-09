@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import *
 from .forms import StockCreateForm, StockSearchForm, StockUpdateForm
 
@@ -24,7 +25,7 @@ def list_items(request):
     }
 
     if request.method == 'POST':
-        queryset = Stock.objects.filter(category__icontains=form['category'].value(),
+        queryset = Stock.objects.filter(category__exact=form['category'].value(),
                                         item_name__icontains=form['item_name'].value(),
                                         )
         context = {
@@ -39,6 +40,7 @@ def add_items(request):
     form = StockCreateForm(request.POST or None)
     if form.is_valid():
         form.save()
+        messages.success(request, 'Successfully Added')
         return redirect('/list_items')
     context = {
         "form": form,
@@ -54,6 +56,7 @@ def update_items(request, pk):
         form = StockUpdateForm(request.POST, instance=queryset)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Successfully Updated')
             return redirect('/list_items')
 
     context = {
@@ -66,5 +69,6 @@ def delete_items(request, pk):
     queryset = Stock.objects.get(id=pk)
     if request.method == 'POST':
         queryset.delete()
+        messages.success(request, 'Successfully Deleted')
         return redirect('/list_items')
     return render(request, 'delete_items.html')

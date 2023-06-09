@@ -85,8 +85,16 @@
 <main>
     {% include 'navbar.html' %}
     <div class="container my-5">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <div class="bg-body-tertiary p-5 rounded">
             <div class="col-sm-8 py-5 mx-auto">
+
                 <div class="header">{{ header }}</div>
                 <form method='POST' action=''>{% csrf_token %}
                     {{ form|crispy }}
@@ -101,6 +109,8 @@
                             <th>CATEGORY</th>
                             <th>ITEM NAME</th>
                             <th>QUANTITY IN STORE</th>
+                            <th>TIMESTAMP</th>
+                            <th>LAST UPDATED</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -111,8 +121,13 @@
                                 <td>{{ instance.category }}</td>
                                 <td>{{ instance.item_name }}</td>
                                 <td>{{ instance.quantity }}</td>
-                                <td><a href="{% url 'update_items' instance.id %}"><i class="fa-solid fa-pen-to-square" style="color: #3d68b3;"></i></a></td>
-                                <td><a href="{% url 'delete_items' instance.id %}"><i class="fa-sharp fa-solid fa-trash" style="color: #801e1e;"></i></a>
+                                <td>{{ instance.timestamp }}</td>
+                                <td>{{ instance.last_updated }}</td>
+                                <td><a href="{% url 'update_items' instance.id %}"><i class="fa-solid fa-pen-to-square"
+                                                                                      style="color: #3d68b3;"></i></a>
+                                </td>
+                                <td><a href="{% url 'delete_items' instance.id %}"><i class="fa-sharp fa-solid fa-trash"
+                                                                                      style="color: #801e1e;"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}

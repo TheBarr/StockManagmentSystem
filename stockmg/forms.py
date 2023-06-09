@@ -7,15 +7,11 @@ class StockCreateForm(forms.ModelForm):
     class Meta:
         model = Stock
         fields = ['category', 'item_name', 'quantity']
-    #validation2
+
     def clean_category(self):
         category = self.cleaned_data.get('category')
         if not category:
             raise forms.ValidationError('This field is required')
-
-        for instance in Stock.objects.all():
-            if instance.category == category:
-                raise forms.ValidationError(str(category) + ' is already created')
         return category
 
     def clean_item_name(self):
