@@ -19,6 +19,7 @@ from django.urls import path
 from stockmg import views
 
 urlpatterns = [
+    path('stock_detail/<str:pk>/', views.stock_detail, name="stock_detail"),
     path('delete_items/<str:pk>/', views.delete_items, name="delete_items"),
     path('update_items/<str:pk>/', views.update_items, name="update_items"),
     path('', views.home, name='home'),
