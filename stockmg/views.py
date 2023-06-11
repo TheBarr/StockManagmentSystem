@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 
@@ -13,7 +14,7 @@ def home(request):
     }
     return render(request, "home.html", context)
 
-
+@login_required
 def list_items(request):
     header = 'List of items'
     form = StockSearchForm(request.POST or None)
@@ -35,7 +36,7 @@ def list_items(request):
         }
     return render(request, "list_items.html", context)
 
-
+@login_required
 def add_items(request):
     form = StockCreateForm(request.POST or None)
     if form.is_valid():
@@ -48,7 +49,7 @@ def add_items(request):
     }
     return render(request, "add_items.html", context)
 
-
+@login_required
 def update_items(request, pk):
     queryset = Stock.objects.get(id=pk)
     form = StockUpdateForm(instance=queryset)
@@ -64,7 +65,7 @@ def update_items(request, pk):
     }
     return render(request, 'add_items.html', context)
 
-
+@login_required
 def delete_items(request, pk):
     queryset = Stock.objects.get(id=pk)
     if request.method == 'POST':
