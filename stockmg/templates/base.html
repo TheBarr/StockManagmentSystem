@@ -89,6 +89,7 @@
                 {% block title %}
                 {% endblock %}
                 {% block content %}
+                    {% csrf_token %}
                 {% endblock %}
             </div>
         </div>
