@@ -91,6 +91,7 @@ def issue_items(request, pk):
         instance = form.save(commit=False)
         instance.quantity -= instance.issue_quantity
         instance.issue_by = str(request.user)
+        instance.reorder_level += 1
         messages.success(request, "Issued SUCCESSFULLY. " + str(instance.quantity) + " " + str(
             instance.item_name) + "s now left in Store")
         instance.save()
@@ -113,6 +114,7 @@ def receive_items(request, pk):
     if form.is_valid():
         instance = form.save(commit=False)
         instance.quantity += instance.receive_quantity
+        instance.reorder_level += 1
         instance.save()
         messages.success(request, "Received SUCCESSFULLY. " + str(instance.quantity) + " " + str(
             instance.item_name) + "s now in Store")
